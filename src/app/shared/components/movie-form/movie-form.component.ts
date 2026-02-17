@@ -37,7 +37,9 @@ EditId!:string;
   }
 
   addCast(){
-    this.cast.push(new FormControl(""))
+    if(this.cast.valid){
+      this.cast.push(new FormControl("",[Validators.required]))
+    }
   }
 
   removeCast(index:number){
@@ -49,7 +51,9 @@ EditId!:string;
   }
 
   addGenre(){
-    this.genre.push(new FormControl(""))
+   if(this.genre.valid){
+     this.genre.push(new FormControl("",[Validators.required]))
+   }
   }
 
 removeGenre(index:number){
@@ -62,6 +66,11 @@ onSubmit(){
   this.movieService.createMovie(movieObj).subscribe(res=>{
     if(res){
       this.movieForm.reset()
+      this.cast.clear()
+      this.genre.clear()
+
+      this.addCast()
+      this.addGenre()
       this.movieService.newMovie({...movieObj,id:res.name})
     }
   })
@@ -87,6 +96,8 @@ onUpdate(){
   if(res){
     this.isInEditMode = false;
     this.movieForm.reset();
+    this.cast.clear()
+    this.genre.clear()
     this.movieService.updateObj(updatedObj)
   }
  })
@@ -94,5 +105,7 @@ onUpdate(){
 
 
 }
+
+
 
 }
