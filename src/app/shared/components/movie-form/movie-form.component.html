@@ -1,0 +1,53 @@
+<h2 class="text-center bg-light mt-4">{{isInEditMode? 'Update Movie' : 'Add Movie'}}</h2>
+<form [formGroup]="movieForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="title">title<sup>*</sup></label>
+        <input type="text" class="form-control" formControlName="title">
+    </div>
+    <div class="form-group">
+        <label for="director">director<sup>*</sup></label>
+        <input type="text" class="form-control" formControlName="director">
+    </div>
+    <div class="form-group">
+        <label for="year">year<sup>*</sup></label>
+        <input type="text" class="form-control" formControlName="year">
+    </div>
+    <div class="form-group">
+        <label for="poster">poster<sup>*</sup></label>
+        <input type="text" class="form-control" formControlName="poster">
+    </div>
+    <div class="form-group">
+        <label for="rating">rating<sup>*</sup></label>
+        <input type="text" class="form-control" formControlName="rating">
+    </div>
+    <div formArrayName="cast">
+        <div *ngFor="let c of cast.controls;let i = index">
+            <div class="row">
+                <div class="col-10">
+                    <input type="text" class="form-control mb-2" [formControlName]="i">
+                </div>
+                <div class="col-2" *ngIf="i > 0">
+                    <button type="button" (click)="removeCast(i)" mat-mini-fab color="warn"><mat-icon>delete</mat-icon></button>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" (click)="addCast()" mat-stroked-button class="my-2" color="primary">Add Cast</button>
+    </div>
+    <div formArrayName="genre">
+        <div *ngFor="let g of genre.controls;let i = index">
+            <div class="row">
+                <div class="col-10">
+                    <input type="text" class="form-control mb-2" [formControlName]="i">
+                </div>
+                <div class="col-2" *ngIf="i > 0">
+                    <button type="button" (click)="removeGenre(i)" mat-mini-fab color="warn"><mat-icon>delete</mat-icon></button>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="my-2" (click)="addGenre()" mat-stroked-button color="primary">Add Genre</button>
+    </div>
+
+    <button *ngIf="!isInEditMode" class="btn btn-block" mat-raised-button color="primary">Add Movie</button>
+    <button (click)="onUpdate()" *ngIf="isInEditMode" type="button" class="btn btn-block" mat-raised-button color="accent">Update Movie</button>
+</form>
